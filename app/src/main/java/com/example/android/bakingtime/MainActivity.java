@@ -2,9 +2,14 @@ package com.example.android.bakingtime;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
+import com.example.android.bakingtime.adapters.RecipeAdapter;
 import com.example.android.bakingtime.data.model.Recipe;
 import com.example.android.bakingtime.data.remote.RecipeService;
 import com.example.android.bakingtime.utils.ApiUtils;
@@ -15,13 +20,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private RecipeService mService;
     private List<Recipe> mRecipes;
-    private TextView mTextView;
+    private LinearLayout mErrorMessageDisplay;
+    private ProgressBar mLoadingIndicator;
+    private RecipeAdapter mRecipeAdapter;
+    private RecyclerView mRecipeRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +38,34 @@ public class MainActivity extends AppCompatActivity {
 
         mService = ApiUtils.getRecipeService();
 
-        mTextView = findViewById(R.id.text_view);
+        mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
+        mErrorMessageDisplay = findViewById(R.id.error_message_display);
+
+        mRecipeAdapter = new RecipeAdapter(this, this);
+        mRecipeRecyclerView = findViewById(R.id.rv_recipes);
+        mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
         loadRecipes();
     }
 
     private void loadRecipes() {
         if (ApiUtils.isOnline(this)) {
+            mLoadingIndicator.setVisibility(View.VISIBLE);
             mService.getRecipes().enqueue(new Callback<List<Recipe>>() {
                 @Override
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                    mLoadingIndicator.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
                         mRecipes = response.body();
-                        setTextViewText();
+                        mRecipeAdapter.setRecipeData(mRecipes);
+                        showRecipes();
                         Log.d(LOG_TAG, "recipes loaded from API");
                     } else {
                         int statusCode = response.code();
                         // handle request errors depending on status code
                         Log.v(LOG_TAG, "Request error. Status code: " + statusCode);
+                        showErrorMessage();
                     }
                 }
 
@@ -58,16 +76,22 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             Log.d(LOG_TAG, "Not online");
+            showErrorMessage();
         }
     }
 
-    private void setTextViewText() {
-        StringBuilder text = new StringBuilder();
-        text.append("Recipes:");
-        for (Recipe recipe : mRecipes) {
-            text.append("\n");
-            text.append(recipe.getName());
-        }
-        mTextView.setText(text.toString());
+    private void showRecipes() {
+        mRecipeRecyclerView.setVisibility(View.VISIBLE);
+        mErrorMessageDisplay.setVisibility(View.GONE);
+    }
+
+    private void showErrorMessage() {
+        mRecipeRecyclerView.setVisibility(View.GONE);
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(Recipe selectedRecipe) {
+        Log.d(LOG_TAG, "Clicked recipe: " + selectedRecipe.getName());
     }
 }
