@@ -28,9 +28,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
         int layoutIdForListItem = R.layout.recipe_list_item;
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
 
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         return new RecipeViewHolder(view);
@@ -38,10 +37,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        String recipeName = mRecipes.get(position).getName();
+        String recipeNameString = mRecipes.get(position).getName();
         int recipeServings = mRecipes.get(position).getServings();
-        holder.recipeNameTextView.setText(recipeName);
-        holder.recipeServingsTextView.setText(mContext.getString(R.string.servings, recipeServings));
+        String recipeServingsString = mContext.getString(R.string.servings, recipeServings);
+        holder.recipeNameTextView.setText(recipeNameString);
+        holder.recipeServingsTextView.setText(recipeServingsString);
     }
 
     @Override

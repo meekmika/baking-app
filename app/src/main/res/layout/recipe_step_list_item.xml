@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_large"
+    android:paddingLeft="@dimen/margin_medium"
+    android:paddingRight="@dimen/margin_medium"
+    android:paddingTop="@dimen/margin_large">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_step_index"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="@dimen/recipe_step_index_width"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_large"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/tv_step_description"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Recipe Introduction" />
+
+        <ImageView
+            android:layout_width="@dimen/icon_standard_size"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_arrow_right_24dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -13,4 +13,6 @@
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="progress_bar_size">42dp</dimen>
     <dimen name="cloud_off_size">60dp</dimen>
+    <dimen name="icon_standard_size">24dp</dimen>
+    <dimen name="recipe_step_index_width">24dp</dimen>
 </resources>

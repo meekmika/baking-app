@@ -1,5 +1,6 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.adapters.RecipeAdapter;
 import com.example.android.bakingtime.data.model.Recipe;
 import com.example.android.bakingtime.data.remote.RecipeService;
@@ -93,5 +95,9 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     @Override
     public void onClick(Recipe selectedRecipe) {
         Log.d(LOG_TAG, "Clicked recipe: " + selectedRecipe.getName());
+
+        final Intent intentToStartRecipeActivity = new Intent(this, RecipeActivity.class);
+        intentToStartRecipeActivity.putExtra(getString(R.string.recipe_key), selectedRecipe);
+        startActivity(intentToStartRecipeActivity);
     }
 }
