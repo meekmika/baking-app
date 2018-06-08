@@ -20,6 +20,7 @@ import com.example.android.bakingtime.data.model.Recipe;
 
 public class MasterListFragment extends Fragment {
 
+    private OnStepClickListener mCallback;
     private Recipe mRecipe;
 
     public MasterListFragment() {
@@ -28,6 +29,13 @@ public class MasterListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        try {
+            mCallback = (OnStepClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStepClickListener");
+        }
     }
 
     @Nullable
@@ -39,6 +47,12 @@ public class MasterListFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
 
+        if (mRecipe != null) setupView(rootView);
+
+        return rootView;
+    }
+
+    private void setupView(View rootView) {
         RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.rv_ingredients);
         IngredientAdapter ingredientAdapter = new IngredientAdapter(mRecipe.getIngredients());
         ingredientsRecyclerView.setAdapter(ingredientAdapter);
@@ -53,10 +67,19 @@ public class MasterListFragment extends Fragment {
         ingredientsRecyclerView.addItemDecoration(decoration);
         stepsRecyclerView.addItemDecoration(decoration);
 
+        stepAdapter.setOnClickHandler(new RecipeStepAdapter.RecipeAdapterOnClickHandler() {
+            @Override
+            public void onClick(int selectedStepIndex) {
+                mCallback.onStepSelected(selectedStepIndex);
+            }
+        });
+
         ViewCompat.setNestedScrollingEnabled(ingredientsRecyclerView, false);
         ViewCompat.setNestedScrollingEnabled(stepsRecyclerView, false);
+    }
 
-        return rootView;
+    public interface OnStepClickListener {
+        void onStepSelected(int index);
     }
 
 

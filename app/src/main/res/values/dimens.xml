@@ -15,4 +15,6 @@
     <dimen name="cloud_off_size">60dp</dimen>
     <dimen name="icon_standard_size">24dp</dimen>
     <dimen name="recipe_step_index_width">24dp</dimen>
+    <dimen name="navigation_bar_height">48dp</dimen>
+    <dimen name="navigation_button_size">32dp</dimen>
 </resources>

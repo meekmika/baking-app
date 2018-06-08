@@ -15,6 +15,7 @@ import java.util.List;
 public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.RecipeStepViewHolder> {
 
     private List<RecipeStep> mSteps;
+    private RecipeAdapterOnClickHandler mOnClickHandler;
 
     public RecipeStepAdapter(List<RecipeStep> steps) {
         mSteps = steps;
@@ -24,6 +25,10 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Re
     public int getItemCount() {
         if (mSteps == null) return 0;
         return mSteps.size();
+    }
+
+    public void setOnClickHandler(RecipeAdapterOnClickHandler handler) {
+        mOnClickHandler = handler;
     }
 
     @Override
@@ -45,7 +50,11 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Re
         return new RecipeStepViewHolder(view);
     }
 
-    class RecipeStepViewHolder extends RecyclerView.ViewHolder {
+    public interface RecipeAdapterOnClickHandler {
+        void onClick(int index);
+    }
+
+    class RecipeStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView stepIndexTextView;
         final TextView stepDescriptionTextView;
 
@@ -53,6 +62,15 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Re
             super(view);
             stepIndexTextView = view.findViewById(R.id.tv_step_index);
             stepDescriptionTextView = view.findViewById(R.id.tv_step_description);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mOnClickHandler != null) {
+                int adapterPosition = getAdapterPosition();
+                mOnClickHandler.onClick(adapterPosition);
+            }
         }
     }
 }
