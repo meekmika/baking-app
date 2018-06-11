@@ -4,6 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/video_player_height">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/recipe_step_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black" />
+
+        <ImageView
+            android:id="@+id/video_placeholder"
+            android:layout_width="@dimen/video_placeholder_size"
+            android:layout_height="@dimen/video_placeholder_size"
+            android:layout_gravity="center"
+            android:src="@drawable/rolling_pin"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+
     <android.support.v4.view.ViewPager
         android:id="@+id/recipe_step_view_pager"
         android:layout_width="match_parent"

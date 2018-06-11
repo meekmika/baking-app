@@ -37,7 +37,7 @@ public class RecipeStepFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        mRecipeStep = args.getParcelable(ARGS_RECIPE_STEP);
+        if (args != null) mRecipeStep = args.getParcelable(ARGS_RECIPE_STEP);
     }
 
     @Nullable
@@ -56,5 +56,9 @@ public class RecipeStepFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    public RecipeStep getRecipeStep() {
+        return mRecipeStep;
     }
 }

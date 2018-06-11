@@ -9,6 +9,7 @@
     <dimen name="text_sz_medium">16sp</dimen>
     <dimen name="text_sz_large">18sp</dimen>
     <dimen name="text_sz_extra_large">22sp</dimen>
+    <dimen name="text_sz_playback_control">14sp</dimen>
 
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="progress_bar_size">42dp</dimen>
@@ -17,4 +18,7 @@
     <dimen name="recipe_step_index_width">24dp</dimen>
     <dimen name="navigation_bar_height">48dp</dimen>
     <dimen name="navigation_button_size">32dp</dimen>
+    <dimen name="video_placeholder_size">150dp</dimen>
+    <dimen name="video_player_height">230dp</dimen>
+    <dimen name="time_bar_height">32dp</dimen>
 </resources>
