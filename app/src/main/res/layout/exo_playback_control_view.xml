@@ -12,25 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_medium">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="@dimen/margin_medium">
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@id/exo_play"
                 style="@style/ExoMediaButton.Play"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_standard_size"
                 android:layout_height="@dimen/icon_standard_size" />
 
             <ImageButton
                 android:id="@id/exo_pause"
                 style="@style/ExoMediaButton.Pause"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_standard_size"
                 android:layout_height="@dimen/icon_standard_size" />
 
         </LinearLayout>
@@ -41,6 +41,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="@dimen/time_bar_height"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
             android:layout_weight="1"
             android:focusable="false" />
 
@@ -59,8 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:paddingLeft="@dimen/margin_small"
-            android:paddingRight="@dimen/margin_small"
             android:text="/"
             android:textColor="#FFBEBEBE"
             android:textSize="@dimen/text_sz_playback_control"
@@ -76,6 +76,13 @@
             android:textColor="#FFBEBEBE"
             android:textSize="@dimen/text_sz_playback_control"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/exo_fullscreen"
+            android:layout_width="@dimen/icon_standard_size"
+            android:layout_height="@dimen/icon_standard_size"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_fullscreen_24dp" />
 
     </LinearLayout>
 

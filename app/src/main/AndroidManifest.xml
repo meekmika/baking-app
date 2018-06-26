@@ -27,7 +27,9 @@
             android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.RecipeStepActivity"
-            android:parentActivityName=".ui.RecipeActivity"></activity>
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:parentActivityName=".ui.RecipeActivity"
+             />
     </application>
 
 </manifest>

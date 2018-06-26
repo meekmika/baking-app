@@ -1,11 +1,16 @@
 package com.example.android.bakingtime.ui;
 
+import android.app.Dialog;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.OrientationEventListener;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +46,10 @@ public class RecipeStepActivity extends AppCompatActivity {
     private ImageView mPlaceholder;
     private int mSelectedStepIndex;
 
+    private Dialog mFullscreenDialog;
+    private boolean mPlayerFullscreen;
+    private ImageButton mFullscreenButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +61,52 @@ public class RecipeStepActivity extends AppCompatActivity {
         mCurrentStep = mRecipeSteps.get(mSelectedStepIndex);
 
         setupView();
+
+        OrientationEventListener orientationEventListener =
+                new OrientationEventListener(this) {
+                    @Override
+                    public void onOrientationChanged(int orientation) {
+                        int epsilon = 10;
+                        int leftLandscape = 90;
+                        int rightLandscape = 270;
+                        if (epsilonCheck(orientation, leftLandscape, epsilon) ||
+                                epsilonCheck(orientation, rightLandscape, epsilon)) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                            openFullscreenDialog();
+                        } else {
+                            closeFullscreenDialog();
+                        }
+                    }
+
+                    private boolean epsilonCheck(int a, int b, int epsilon) {
+                        return a > b - epsilon && a < b + epsilon;
+                    }
+                };
+        orientationEventListener.enable();
+
+        if (mCurrentStep != null) mVideoUri = mCurrentStep.getVideoURL();
+        if (mCurrentStep != null && mVideoUri == null) mVideoUri = mCurrentStep.getThumbnailURL();
+    }
+
+    private void setupView() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(mRecipe.getName());
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        mViewPager = findViewById(R.id.recipe_step_view_pager);
+        mLeftButton = findViewById(R.id.btn_left);
+        mRightButton = findViewById(R.id.btn_right);
+        mNavigationIndicatorTextView = findViewById(R.id.tv_indicator);
+
+        mAdapter = new RecipeStepPagerAdapter(getSupportFragmentManager(), mRecipeSteps);
+
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setCurrentItem(mSelectedStepIndex);
+
+        mPlayerView = findViewById(R.id.recipe_step_video_view);
+        mPlaceholder = findViewById(R.id.video_placeholder);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -74,41 +129,39 @@ public class RecipeStepActivity extends AppCompatActivity {
         setNavigationIndicatorText(mSelectedStepIndex);
         toggleArrowVisibility(mSelectedStepIndex);
 
-        if (mCurrentStep != null) mVideoUri = mCurrentStep.getVideoURL();
-        if (mCurrentStep != null && mVideoUri == null) mVideoUri = mCurrentStep.getThumbnailURL();
+        mFullscreenDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+            public void onBackPressed() {
+                if (mPlayerFullscreen) closeFullscreenDialog();
+                super.onBackPressed();
+            }
+        };
+
+        mFullscreenButton = findViewById(R.id.exo_fullscreen);
+        mFullscreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mPlayerFullscreen) openFullscreenDialog();
+                else closeFullscreenDialog();
+            }
+        });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        initPlayer();
+    private void openFullscreenDialog() {
+        ((ViewGroup) mPlayerView.getParent()).removeView(mPlayerView);
+        mFullscreenDialog.addContentView(mPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mFullscreenButton.setImageResource(R.drawable.ic_fullscreen_exit_24dp);
+        mPlayerFullscreen = true;
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        mFullscreenDialog.show();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        initPlayer();
-    }
-
-    private void setupView() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(mRecipe.getName());
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        mViewPager = findViewById(R.id.recipe_step_view_pager);
-        mLeftButton = findViewById(R.id.btn_left);
-        mRightButton = findViewById(R.id.btn_right);
-        mNavigationIndicatorTextView = findViewById(R.id.tv_indicator);
-
-        mAdapter = new RecipeStepPagerAdapter(getSupportFragmentManager(), mRecipeSteps);
-
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(mSelectedStepIndex);
-
-        mPlayerView = findViewById(R.id.recipe_step_video_view);
-        mPlaceholder = findViewById(R.id.video_placeholder);
+    private void closeFullscreenDialog() {
+        ((ViewGroup) mPlayerView.getParent()).removeView(mPlayerView);
+        ((FrameLayout) findViewById(R.id.video_container)).addView(mPlayerView);
+        mPlayerFullscreen = false;
+        mFullscreenDialog.dismiss();
+        mFullscreenButton.setImageResource(R.drawable.ic_fullscreen_24dp);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     private void initPlayer() {
@@ -126,6 +179,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         if (mVideoUri.isEmpty() || mVideoUri == null) {
             mPlayerView.setVisibility(View.INVISIBLE);
             mPlaceholder.setVisibility(View.VISIBLE);
+            mPlayer.stop();
             return;
         }
         String userAgent = Util.getUserAgent(this, getString(R.string.app_name));
@@ -135,6 +189,18 @@ public class RecipeStepActivity extends AppCompatActivity {
         mPlayer.prepare(videoSource);
         mPlayerView.setVisibility(View.VISIBLE);
         mPlaceholder.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initPlayer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initPlayer();
     }
 
     @Override
