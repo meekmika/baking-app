@@ -3,8 +3,10 @@ package com.example.android.bakingtime.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,6 +27,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final int COLUMN_WIDTH = 800;
+    private static final int MIN_COLUMNS = 2;
 
     private RecipeService mService;
     private List<Recipe> mRecipes;
@@ -45,10 +49,23 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
         mRecipeAdapter = new RecipeAdapter(this, this);
         mRecipeRecyclerView = findViewById(R.id.rv_recipes);
-        mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            int numColumns = numberOfColumns();
+            mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
+        } else {
+            mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        }
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
         loadRecipes();
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / COLUMN_WIDTH;
+        return nColumns < MIN_COLUMNS ? MIN_COLUMNS : nColumns;
     }
 
     private void loadRecipes() {

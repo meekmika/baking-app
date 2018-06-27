@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_medium"
+    android:paddingRight="@dimen/margin_medium">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,6 +22,7 @@
             android:id="@+id/rv_recipes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:paddingBottom="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_medium"
             android:visibility="gone"
@@ -50,4 +53,4 @@
         </LinearLayout>
     </FrameLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
