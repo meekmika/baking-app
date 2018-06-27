@@ -2,7 +2,7 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/master_list_fragment"
-    android:name="com.example.android.bakingtime.ui.MasterListFragment"
+    android:name="com.example.android.bakingtime.ui.RecipeMasterListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.RecipeActivity" />

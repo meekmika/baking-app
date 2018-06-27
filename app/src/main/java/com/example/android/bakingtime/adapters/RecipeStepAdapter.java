@@ -68,8 +68,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Re
         @Override
         public void onClick(View v) {
             if (mOnClickHandler != null) {
-                int adapterPosition = getAdapterPosition();
-                mOnClickHandler.onClick(adapterPosition);
+                mOnClickHandler.onClick(getAdapterPosition());
             }
         }
     }

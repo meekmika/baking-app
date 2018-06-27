@@ -6,4 +6,5 @@
     <color name="colorAccent">#d32f2f</color>
 
     <color name="playback_control_bg">#64151515</color>
+    <color name="divider">#FFE4E4E4</color>
 </resources>

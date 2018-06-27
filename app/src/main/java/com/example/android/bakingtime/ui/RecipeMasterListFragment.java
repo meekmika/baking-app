@@ -18,12 +18,12 @@ import com.example.android.bakingtime.adapters.IngredientAdapter;
 import com.example.android.bakingtime.adapters.RecipeStepAdapter;
 import com.example.android.bakingtime.data.model.Recipe;
 
-public class MasterListFragment extends Fragment {
+public class RecipeMasterListFragment extends Fragment {
 
     private OnStepClickListener mCallback;
     private Recipe mRecipe;
 
-    public MasterListFragment() {
+    public RecipeMasterListFragment() {
     }
 
     @Override

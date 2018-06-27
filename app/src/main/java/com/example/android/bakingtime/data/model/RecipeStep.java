@@ -105,4 +105,13 @@ public class RecipeStep implements Parcelable {
         dest.writeString(videoURL);
         dest.writeString(thumbnailURL);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RecipeStep) {
+            RecipeStep that = (RecipeStep) obj;
+            return this.id.equals(that.id);
+        }
+        return super.equals(obj);
+    }
 }

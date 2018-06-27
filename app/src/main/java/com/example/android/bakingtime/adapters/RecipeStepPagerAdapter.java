@@ -8,7 +8,7 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.example.android.bakingtime.data.model.RecipeStep;
-import com.example.android.bakingtime.ui.RecipeStepFragment;
+import com.example.android.bakingtime.ui.RecipeStepPagerItem;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class RecipeStepPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return RecipeStepFragment.newInstance(mRecipeSteps.get(position));
+        return RecipeStepPagerItem.newInstance(mRecipeSteps.get(position));
     }
 
     @Override

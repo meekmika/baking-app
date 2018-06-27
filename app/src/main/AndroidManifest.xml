@@ -24,6 +24,7 @@
         <activity
             android:name=".ui.RecipeActivity"
             android:launchMode="singleTop"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.RecipeStepActivity"

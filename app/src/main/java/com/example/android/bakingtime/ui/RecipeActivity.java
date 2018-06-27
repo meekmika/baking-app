@@ -2,18 +2,20 @@ package com.example.android.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.data.model.Recipe;
 
-public class RecipeActivity extends AppCompatActivity implements MasterListFragment.OnStepClickListener {
+public class RecipeActivity extends AppCompatActivity implements RecipeMasterListFragment.OnStepClickListener {
 
     private static final String LOG_TAG = RecipeActivity.class.getSimpleName();
 
     private Recipe mRecipe;
-    private boolean mTwoPane = false;
+    private boolean mTwoPane;
+    private RecipeStepFragment mRecipeStepFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +30,22 @@ public class RecipeActivity extends AppCompatActivity implements MasterListFragm
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        mTwoPane = getResources().getBoolean(R.bool.isTablet);
+
+        if (mTwoPane) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mRecipeStepFragment = RecipeStepFragment.newInstance(this, mRecipe, 0);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_step_details, mRecipeStepFragment)
+                    .commit();
+        }
+
     }
 
     @Override
     public void onStepSelected(int index) {
         if (mTwoPane) {
-            // TODO: Implement tablet layout
+            mRecipeStepFragment.setStep(index);
         } else {
             final Intent intent = new Intent(this, RecipeStepActivity.class);
             intent.putExtra(getString(R.string.recipe_key), mRecipe);
