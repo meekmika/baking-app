@@ -2,6 +2,10 @@ package com.example.android.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +20,7 @@ import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.adapters.RecipeAdapter;
 import com.example.android.bakingtime.data.model.Recipe;
 import com.example.android.bakingtime.data.remote.RecipeService;
+import com.example.android.bakingtime.idlingResource.SimpleIdlingResource;
 import com.example.android.bakingtime.utils.ApiUtils;
 
 import java.util.List;
@@ -24,7 +29,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity
+        implements RecipeAdapter.RecipeAdapterOnClickHandler {
+
+    public static final String RECIPE_KEY = "recipe-key";
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int COLUMN_WIDTH = 800;
@@ -36,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     private ProgressBar mLoadingIndicator;
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecipeRecyclerView;
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +64,12 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
             int numColumns = numberOfColumns();
             mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
         } else {
-            mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this,
+                    LinearLayoutManager.VERTICAL, false));
         }
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
+        getIdlingResource();
         loadRecipes();
     }
 
@@ -71,10 +84,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     private void loadRecipes() {
         if (ApiUtils.isOnline(this)) {
             mLoadingIndicator.setVisibility(View.VISIBLE);
+
+            if (mIdlingResource != null) {
+                mIdlingResource.setIdleState(false);
+            }
             mService.getRecipes().enqueue(new Callback<List<Recipe>>() {
                 @Override
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                    mLoadingIndicator.setVisibility(View.GONE);
+                    mLoadingIndicator.setVisibility(View.INVISIBLE);
                     if (response.isSuccessful()) {
                         mRecipes = response.body();
                         mRecipeAdapter.setRecipeData(mRecipes);
@@ -85,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
                         // handle request errors depending on status code
                         Log.v(LOG_TAG, "Request error. Status code: " + statusCode);
                         showErrorMessage();
+                    }
+
+                    if (mIdlingResource != null) {
+                        mIdlingResource.setIdleState(true);
                     }
                 }
 
@@ -101,11 +122,11 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
     private void showRecipes() {
         mRecipeRecyclerView.setVisibility(View.VISIBLE);
-        mErrorMessageDisplay.setVisibility(View.GONE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
 
     private void showErrorMessage() {
-        mRecipeRecyclerView.setVisibility(View.GONE);
+        mRecipeRecyclerView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
@@ -113,8 +134,25 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     public void onClick(Recipe selectedRecipe) {
         Log.d(LOG_TAG, "Clicked recipe: " + selectedRecipe.getName());
 
-        final Intent intentToStartRecipeActivity = new Intent(this, RecipeActivity.class);
-        intentToStartRecipeActivity.putExtra(getString(R.string.recipe_key), selectedRecipe);
+        final Intent intentToStartRecipeActivity =
+                new Intent(this, RecipeActivity.class);
+        intentToStartRecipeActivity.putExtra(RECIPE_KEY, selectedRecipe);
         startActivity(intentToStartRecipeActivity);
+    }
+
+    public List<Recipe> getRecipes() {
+        return mRecipes;
+    }
+
+    /**
+     * Only called from test, creates and returns a new {@link SimpleIdlingResource}.
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }

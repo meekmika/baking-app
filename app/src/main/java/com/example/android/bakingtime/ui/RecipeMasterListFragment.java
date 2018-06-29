@@ -18,6 +18,8 @@ import com.example.android.bakingtime.adapters.IngredientAdapter;
 import com.example.android.bakingtime.adapters.RecipeStepAdapter;
 import com.example.android.bakingtime.data.model.Recipe;
 
+import static com.example.android.bakingtime.ui.MainActivity.RECIPE_KEY;
+
 public class RecipeMasterListFragment extends Fragment {
 
     private OnStepClickListener mCallback;
@@ -43,7 +45,7 @@ public class RecipeMasterListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        mRecipe = getActivity().getIntent().getParcelableExtra(getString(R.string.recipe_key));
+        mRecipe = getActivity().getIntent().getParcelableExtra(RECIPE_KEY);
 
         final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
 

@@ -59,7 +59,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void onClick(Recipe selectedRecipe);
     }
 
-    class RecipeViewHolder extends RecyclerView.ViewHolder implements Button.OnClickListener {
+    class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final TextView recipeNameTextView;
         final TextView recipeServingsTextView;
@@ -70,7 +70,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             recipeNameTextView = view.findViewById(R.id.tv_recipe_name);
             recipeServingsTextView = view.findViewById(R.id.tv_recipe_servings);
             showRecipeButton = view.findViewById(R.id.btn_show_recipe);
-            showRecipeButton.setOnClickListener(this);
+            view.setOnClickListener(this);
         }
 
         @Override

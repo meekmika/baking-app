@@ -36,6 +36,8 @@ import com.squareup.picasso.Picasso;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static com.example.android.bakingtime.ui.MainActivity.RECIPE_KEY;
+import static com.example.android.bakingtime.ui.RecipeActivity.RECIPE_STEP_INDEX_KEY;
 
 public class RecipeStepFragment extends Fragment {
     private Recipe mRecipe;
@@ -61,8 +63,8 @@ public class RecipeStepFragment extends Fragment {
     public static RecipeStepFragment newInstance(Context context, Recipe recipe, int selectedStepIndex) {
 
         Bundle args = new Bundle();
-        args.putParcelable(context.getString(R.string.recipe_key), recipe);
-        args.putInt(context.getString(R.string.recipe_step_index_key), selectedStepIndex);
+        args.putParcelable(RECIPE_KEY, recipe);
+        args.putInt(RECIPE_STEP_INDEX_KEY, selectedStepIndex);
 
         RecipeStepFragment fragment = new RecipeStepFragment();
         fragment.setArguments(args);
@@ -73,8 +75,8 @@ public class RecipeStepFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        mRecipe = args.getParcelable(getString(R.string.recipe_key));
-        mSelectedStepIndex = args.getInt(getString(R.string.recipe_step_index_key));
+        mRecipe = args.getParcelable(RECIPE_KEY);
+        mSelectedStepIndex = args.getInt(RECIPE_STEP_INDEX_KEY);
         mCurrentStep = mRecipe.getSteps().get(mSelectedStepIndex);
 
         OrientationEventListener orientationEventListener =

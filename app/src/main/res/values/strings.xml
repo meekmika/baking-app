@@ -1,11 +1,6 @@
 <resources>
     <string name="app_name">Baking Time</string>
 
-    <string name="recipe_key" translatable="false">recipe</string>
-    <string name="recipe_name_key" translatable="false">recipe-name</string>
-    <string name="recipe_steps_key" translatable="false">recipe-steps</string>
-    <string name="recipe_step_index_key" translatable="false">recipe-step-index</string>
-
     <string name="servings">%1$d servings</string>
     <string name="error_message">Could not get any recipes. \nCheck your Internet connection!</string>
     <string name="action_show_recipe">Show Recipe</string>

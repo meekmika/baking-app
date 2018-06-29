@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/margin_medium">
 
     <FrameLayout
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,7 +17,7 @@
             android:layout_width="@dimen/progress_bar_size"
             android:layout_height="@dimen/progress_bar_size"
             android:layout_gravity="center"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_recipes"
@@ -25,7 +26,7 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_medium"
-            android:visibility="gone"
+            android:visibility="invisible"
             tools:listitem="@layout/recipe_list_item"
             tools:visibility="visible" />
 
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <ImageView
                 android:layout_width="@dimen/cloud_off_size"

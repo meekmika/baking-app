@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.data.model.Recipe;
 
+import static com.example.android.bakingtime.ui.MainActivity.RECIPE_KEY;
+
 public class RecipeActivity extends AppCompatActivity implements RecipeMasterListFragment.OnStepClickListener {
 
+    public static final String RECIPE_STEP_INDEX_KEY = "recipe-step-index";
     private static final String LOG_TAG = RecipeActivity.class.getSimpleName();
-
     private Recipe mRecipe;
     private boolean mTwoPane;
     private RecipeStepFragment mRecipeStepFragment;
@@ -21,7 +23,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeMasterLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
-        mRecipe = getIntent().getParcelableExtra(getString(R.string.recipe_key));
+        mRecipe = getIntent().getParcelableExtra(RECIPE_KEY);
 
         ActionBar actionBar = getSupportActionBar();
 
@@ -48,8 +50,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeMasterLis
             mRecipeStepFragment.setStep(index);
         } else {
             final Intent intent = new Intent(this, RecipeStepActivity.class);
-            intent.putExtra(getString(R.string.recipe_key), mRecipe);
-            intent.putExtra(getString(R.string.recipe_step_index_key), index);
+            intent.putExtra(RECIPE_KEY, mRecipe);
+            intent.putExtra(RECIPE_STEP_INDEX_KEY, index);
             startActivity(intent);
         }
     }
