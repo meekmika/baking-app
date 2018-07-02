@@ -27,12 +27,13 @@ public class RecipeStepActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        RecipeStepFragment recipeStepFragment = RecipeStepFragment.newInstance(this, recipe, selectedStepIndex);
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (savedInstanceState == null) {
+            RecipeStepFragment recipeStepFragment = RecipeStepFragment.newInstance(recipe, selectedStepIndex);
+            FragmentManager fragmentManager = getSupportFragmentManager();
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.recipe_step_fragment, recipeStepFragment)
-                .commit();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_step_fragment, recipeStepFragment)
+                    .commit();
+        }
     }
-
 }

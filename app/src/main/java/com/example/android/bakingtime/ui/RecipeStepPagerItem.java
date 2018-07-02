@@ -50,7 +50,6 @@ public class RecipeStepPagerItem extends Fragment {
         mHeadingTextView = rootView.findViewById(R.id.tv_recipe_step_heading);
         mBodyTextView = rootView.findViewById(R.id.tv_recipe_step_body);
 
-        Log.d("YO", "Step: " + mRecipeStep.getShortDescription());
         if (mRecipeStep != null) {
             mHeadingTextView.setText(mRecipeStep.getShortDescription());
             mBodyTextView.setText(mRecipeStep.getDescription());

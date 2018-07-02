@@ -34,9 +34,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeMasterLis
 
         mTwoPane = getResources().getBoolean(R.bool.isTablet);
 
-        if (mTwoPane) {
+        if (mTwoPane && savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            mRecipeStepFragment = RecipeStepFragment.newInstance(this, mRecipe, 0);
+            mRecipeStepFragment = RecipeStepFragment.newInstance(mRecipe, 0);
             fragmentManager.beginTransaction()
                     .replace(R.id.recipe_step_details, mRecipeStepFragment)
                     .commit();

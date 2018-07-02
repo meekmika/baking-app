@@ -77,13 +77,6 @@
             android:textSize="@dimen/text_sz_playback_control"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/exo_fullscreen"
-            android:layout_width="@dimen/icon_standard_size"
-            android:layout_height="@dimen/icon_standard_size"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_fullscreen_24dp" />
-
     </LinearLayout>
 
 </LinearLayout>
