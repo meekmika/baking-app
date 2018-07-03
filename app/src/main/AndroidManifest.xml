@@ -27,8 +27,26 @@
             android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.RecipeStepActivity"
-            android:parentActivityName=".ui.RecipeActivity"
-             />
+            android:parentActivityName=".ui.RecipeActivity" />
+
+        <receiver android:name=".widget.RecipeWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recipe_widget_info" />
+        </receiver>
+
+        <service android:name=".widget.RecipeWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity android:name=".widget.RecipeWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

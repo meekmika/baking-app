@@ -8,4 +8,7 @@
     <string name="steps">Steps</string>
     <string name="pager_navigation_indicator">%1$d/%2$d</string>
     <string name="lets_bake">Let\'s bake!</string>
+    <string name="appwidget_title">Recipe Widget</string>
+    <string name="choose_recipe">Choose a recipe to add to your home screen!</string>
+    <string name="add_widget">Add Recipe</string>
 </resources>

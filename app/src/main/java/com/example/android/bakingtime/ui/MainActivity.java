@@ -132,8 +132,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(Recipe selectedRecipe) {
-        Log.d(LOG_TAG, "Clicked recipe: " + selectedRecipe.getName());
-
         final Intent intentToStartRecipeActivity =
                 new Intent(this, RecipeActivity.class);
         intentToStartRecipeActivity.putExtra(RECIPE_KEY, selectedRecipe);
