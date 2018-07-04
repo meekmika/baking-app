@@ -20,6 +20,7 @@
             android:layout_width="@dimen/recipe_step_index_width"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin_large"
+            android:fontFamily="@font/work_sans"
             tools:text="0" />
 
         <TextView
@@ -28,12 +29,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/work_sans"
             tools:text="Recipe Introduction" />
 
         <ImageView
             android:layout_width="@dimen/icon_standard_size"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_keyboard_arrow_right_24dp" />
+            android:src="@drawable/ic_chevron_right_24dp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -8,7 +8,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,8 +36,8 @@ public class MainActivity extends AppCompatActivity
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String RECIPES = "recipes";
-    private static final int COLUMN_WIDTH = 800;
-    private static final int MIN_COLUMNS = 2;
+    private static final int COLUMN_WIDTH = 600;
+    private static final int MIN_COLUMNS = 1;
 
     private RecipeService mService;
     private ArrayList<Recipe> mRecipes;
@@ -62,13 +61,8 @@ public class MainActivity extends AppCompatActivity
 
         mRecipeAdapter = new RecipeAdapter(this, this);
         mRecipeRecyclerView = findViewById(R.id.rv_recipes);
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            int numColumns = numberOfColumns();
-            mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
-        } else {
-            mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this,
-                    LinearLayoutManager.VERTICAL, false));
-        }
+        int numColumns = numberOfColumns();
+        mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
         getIdlingResource();
@@ -82,8 +76,7 @@ public class MainActivity extends AppCompatActivity
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
-        int nColumns = width / COLUMN_WIDTH;
-        return nColumns < MIN_COLUMNS ? MIN_COLUMNS : nColumns;
+        return width / COLUMN_WIDTH;
     }
 
     @Override

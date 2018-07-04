@@ -2,27 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/action_bar_elevation">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_sz_large" />
+
+    </android.support.v7.widget.Toolbar>
 
     <TextView
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="@dimen/margin_large"
+        android:fontFamily="@font/work_sans_medium"
         android:text="@string/choose_recipe" />
 
     <RadioGroup
         android:id="@+id/radio_selectable_recipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large"
         android:orientation="vertical" />
 
     <Button
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_margin="@dimen/margin_large"
         android:enabled="false"
+        android:fontFamily="@font/work_sans"
         android:text="@string/add_widget" />
 
 </LinearLayout>

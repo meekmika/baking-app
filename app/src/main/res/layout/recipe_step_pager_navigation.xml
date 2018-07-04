@@ -3,36 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navigation_bar_height"
-    android:background="@color/colorAccent"
+    android:background="@color/colorPrimary"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/btn_left"
-        android:layout_width="@dimen/navigation_button_size"
-        android:layout_height="@dimen/navigation_button_size"
-        android:layout_margin="@dimen/margin_medium"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_chevron_left_white_24dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:background="@color/divider" />
 
-    <TextView
-        android:id="@+id/tv_indicator"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        tools:text="1/10" />
+        android:orientation="horizontal">
 
-    <ImageButton
-        android:id="@+id/btn_right"
-        android:layout_width="@dimen/navigation_button_size"
-        android:layout_height="@dimen/navigation_button_size"
-        android:layout_margin="@dimen/margin_medium"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_chevron_right_white_24dp" />
+        <ImageButton
+            android:id="@+id/btn_left"
+            android:layout_width="@dimen/navigation_button_size"
+            android:layout_height="@dimen/navigation_button_size"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_chevron_left_24dp" />
+
+        <TextView
+            android:id="@+id/tv_indicator"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:fontFamily="@font/work_sans"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            tools:text="1/10" />
+
+        <ImageButton
+            android:id="@+id/btn_right"
+            android:layout_width="@dimen/navigation_button_size"
+            android:layout_height="@dimen/navigation_button_size"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_chevron_right_24dp" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.data.model.Ingredient;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
@@ -39,11 +40,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         String ingredientName = mIngredients.get(position).getIngredient();
-        String ingredientQuantity = String.valueOf(mIngredients.get(position).getQuantity());
+        double quantity = mIngredients.get(position).getQuantity();
+        DecimalFormat df = new DecimalFormat("0.#");
+        String ingredientQuantity = df.format(quantity);
         String ingredientMeasure = mIngredients.get(position).getMeasure();
+        ingredientMeasure = ingredientMeasure.trim();
 
         holder.ingredientNameTextView.setText(ingredientName);
-        holder.ingredientQuantityTextView.setText(String.valueOf(ingredientQuantity));
+        holder.ingredientQuantityTextView.setText(ingredientQuantity);
         holder.ingredientMeasureTextView.setText(ingredientMeasure);
     }
 

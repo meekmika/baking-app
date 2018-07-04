@@ -14,10 +14,18 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/appwidget_title"
-        android:padding="@dimen/margin_medium"
+        android:fontFamily="@font/work_sans_medium"
+        android:gravity="center_vertical"
+        android:padding="@dimen/margin_large"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_sz_large"
         tools:text="@string/appwidget_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:background="@color/divider" />
 
     <ListView
         android:id="@+id/list_ingredients"
