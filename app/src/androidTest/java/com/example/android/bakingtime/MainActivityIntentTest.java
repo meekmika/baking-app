@@ -23,7 +23,7 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
-import static com.example.android.bakingtime.ui.MainActivity.RECIPE_KEY;
+import static com.example.android.bakingtime.ui.MainActivity.EXTRA_RECIPE;
 import static org.hamcrest.core.IsNot.not;
 
 /**
@@ -57,7 +57,7 @@ public class MainActivityIntentTest {
     public void clickRecipeItem_IntentHasExtraWithRecipeKey() {
         onView(ViewMatchers.withId(R.id.rv_recipes)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        intended(hasExtraWithKey(RECIPE_KEY));
+        intended(hasExtraWithKey(EXTRA_RECIPE));
     }
 
     @After

@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.data.model.Recipe;
 
-import static com.example.android.bakingtime.ui.MainActivity.RECIPE_KEY;
-import static com.example.android.bakingtime.ui.RecipeActivity.RECIPE_STEP_INDEX_KEY;
+import static com.example.android.bakingtime.ui.MainActivity.EXTRA_RECIPE;
+import static com.example.android.bakingtime.ui.RecipeActivity.EXTRA_RECIPE_STEP_INDEX;
 
 public class RecipeStepActivity extends AppCompatActivity {
 
@@ -18,8 +18,8 @@ public class RecipeStepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
 
-        Recipe recipe = getIntent().getParcelableExtra(RECIPE_KEY);
-        int selectedStepIndex = getIntent().getIntExtra(RECIPE_STEP_INDEX_KEY, 0);
+        Recipe recipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
+        int selectedStepIndex = getIntent().getIntExtra(EXTRA_RECIPE_STEP_INDEX, 0);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

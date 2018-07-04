@@ -23,6 +23,7 @@ import com.example.android.bakingtime.data.remote.RecipeService;
 import com.example.android.bakingtime.idlingResource.SimpleIdlingResource;
 import com.example.android.bakingtime.utils.ApiUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,14 +33,15 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity
         implements RecipeAdapter.RecipeAdapterOnClickHandler {
 
-    public static final String RECIPE_KEY = "recipe-key";
+    public static final String EXTRA_RECIPE = "recipe-key";
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String RECIPES = "recipes";
     private static final int COLUMN_WIDTH = 800;
     private static final int MIN_COLUMNS = 2;
 
     private RecipeService mService;
-    private List<Recipe> mRecipes;
+    private ArrayList<Recipe> mRecipes;
     private LinearLayout mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
     private RecipeAdapter mRecipeAdapter;
@@ -70,7 +72,10 @@ public class MainActivity extends AppCompatActivity
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
         getIdlingResource();
-        loadRecipes();
+        if (savedInstanceState != null) {
+            mRecipes = savedInstanceState.getParcelableArrayList(RECIPES);
+            showRecipes();
+        } else loadRecipes();
     }
 
     private int numberOfColumns() {
@@ -79,6 +84,14 @@ public class MainActivity extends AppCompatActivity
         int width = displayMetrics.widthPixels;
         int nColumns = width / COLUMN_WIDTH;
         return nColumns < MIN_COLUMNS ? MIN_COLUMNS : nColumns;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mRecipes != null) {
+            outState.putParcelableArrayList(RECIPES, mRecipes);
+        }
     }
 
     private void loadRecipes() {
@@ -93,8 +106,7 @@ public class MainActivity extends AppCompatActivity
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                     mLoadingIndicator.setVisibility(View.INVISIBLE);
                     if (response.isSuccessful()) {
-                        mRecipes = response.body();
-                        mRecipeAdapter.setRecipeData(mRecipes);
+                        mRecipes = (ArrayList<Recipe>) response.body();
                         showRecipes();
                         Log.d(LOG_TAG, "recipes loaded from API");
                     } else {
@@ -121,6 +133,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showRecipes() {
+        mRecipeAdapter.setRecipeData(mRecipes);
         mRecipeRecyclerView.setVisibility(View.VISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
@@ -134,7 +147,7 @@ public class MainActivity extends AppCompatActivity
     public void onClick(Recipe selectedRecipe) {
         final Intent intentToStartRecipeActivity =
                 new Intent(this, RecipeActivity.class);
-        intentToStartRecipeActivity.putExtra(RECIPE_KEY, selectedRecipe);
+        intentToStartRecipeActivity.putExtra(EXTRA_RECIPE, selectedRecipe);
         startActivity(intentToStartRecipeActivity);
     }
 

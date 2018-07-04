@@ -37,8 +37,8 @@ import com.squareup.picasso.Picasso;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static com.example.android.bakingtime.ui.MainActivity.RECIPE_KEY;
-import static com.example.android.bakingtime.ui.RecipeActivity.RECIPE_STEP_INDEX_KEY;
+import static com.example.android.bakingtime.ui.MainActivity.EXTRA_RECIPE;
+import static com.example.android.bakingtime.ui.RecipeActivity.EXTRA_RECIPE_STEP_INDEX;
 
 public class RecipeStepFragment extends Fragment implements LifecycleObserver {
 
@@ -72,8 +72,8 @@ public class RecipeStepFragment extends Fragment implements LifecycleObserver {
     public static RecipeStepFragment newInstance(Recipe recipe, int selectedStepIndex) {
 
         Bundle args = new Bundle();
-        args.putParcelable(RECIPE_KEY, recipe);
-        args.putInt(RECIPE_STEP_INDEX_KEY, selectedStepIndex);
+        args.putParcelable(EXTRA_RECIPE, recipe);
+        args.putInt(EXTRA_RECIPE_STEP_INDEX, selectedStepIndex);
 
         RecipeStepFragment fragment = new RecipeStepFragment();
         fragment.setArguments(args);
@@ -85,8 +85,8 @@ public class RecipeStepFragment extends Fragment implements LifecycleObserver {
 
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        mRecipe = args.getParcelable(RECIPE_KEY);
-        mSelectedStepIndex = args.getInt(RECIPE_STEP_INDEX_KEY);
+        mRecipe = args.getParcelable(EXTRA_RECIPE);
+        mSelectedStepIndex = args.getInt(EXTRA_RECIPE_STEP_INDEX);
         mCurrentStep = mRecipe.getSteps().get(mSelectedStepIndex);
 
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
